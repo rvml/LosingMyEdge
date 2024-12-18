@@ -29,23 +29,23 @@ class Solution():
         return total_sum
 
     def processOne(self, update):
-            if len(update) == 1:
-                return update[0]
-            # create a sort of "suffix set" of values after the current index
-            running_set = [set() for i in range(len(update))]
-            s = {update[-1]}
-            for i in range(len(update)-2, -1, -1):
-                s.add(update[i+1])
-                running_set[i] = s.copy()
-            for i, pg in enumerate(update):
-                rules = self.rules[pg]
-                for prevpage in rules:
-                    if prevpage in running_set[i]:
-                        # this means that a page that should've been before it, is actually after it
-                        return 0
-            #this update is valid. return the middle value
-            middle = len(update)//2
-            return update[middle] 
+        if len(update) == 1:
+            return update[0]
+        # create a sort of "suffix set" of values after the current index
+        running_set = [set() for i in range(len(update))]
+        s = {update[-1]}
+        for i in range(len(update)-2, -1, -1):
+            s.add(update[i+1])
+            running_set[i] = s.copy()
+        for i, pg in enumerate(update):
+            rules = self.rules[pg]
+            for prevpage in rules:
+                if prevpage in running_set[i]:
+                    # this means that a page that should've been before it, is actually after it
+                    return 0
+        #this update is valid. return the middle value
+        middle = len(update)//2
+        return update[middle] 
 
 sol = Solution()
 print(f"part 1 example:\t\t{sol.process('input/5/example.txt')}")
