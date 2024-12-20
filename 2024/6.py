@@ -30,7 +30,6 @@ class Solution():
                         self.guard_dir = self.directions[c]
                         self.guard_pos = (i,j)
                         self.initial = (self.guard_pos, self.guard_dir)
-                        c = 'X'
                     if c == '#':
                         self.obstructions.add((i,j))
 
