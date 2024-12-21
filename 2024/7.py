@@ -16,43 +16,43 @@ class Solution():
     def process(self, filename, part2):
         self.readInput(filename)
         total_sum = 0
-        found = False
+        done = False
 
         def processOne(result, nums):
             nonlocal total_sum
-            nonlocal found
+            nonlocal done
             nonlocal part2
-            if found:
+            if done:
                 return
 
             if len(nums) == 1:
                 if int(nums[0]) == result:
                     total_sum += result
-                    found = True
+                    done = True
                 return
 
             num1 = nums.popleft()
             num2 = nums.popleft()
 
             #addition
-            if not found:
+            if not done:
                 value = str(int(num1)+int(num2))
                 nums.appendleft(value)
                 processOne(result, nums)
                 nums.popleft()
 
             #multiplication
-            if not found:
+            if not done:
                 value = str(int(num1)*int(num2))
                 nums.appendleft(value)
                 processOne(result,nums)
                 nums.popleft()
 
             #concatenation 
-            if part2 and not found:
+            if part2 and not done:
                 value = num1 + num2
                 nums.appendleft(value)
-                done = processOne(result, nums)
+                processOne(result, nums)
                 nums.popleft()
 
             nums.appendleft(num2)
@@ -60,8 +60,7 @@ class Solution():
             return
 
         for result, operands in self.data: 
-            nums = deque(operands)
-            found = False
+            done = False
             processOne(result, deque(operands)) 
         return total_sum
 
