@@ -36,22 +36,19 @@ class Solution():
 
             #addition
             if not done:
-                value = str(int(num1)+int(num2))
-                nums.appendleft(value)
+                nums.appendleft(str(int(num1)+int(num2)))
                 processOne(result, nums)
                 nums.popleft()
 
             #multiplication
             if not done:
-                value = str(int(num1)*int(num2))
-                nums.appendleft(value)
+                nums.appendleft(str(int(num1)*int(num2)))
                 processOne(result,nums)
                 nums.popleft()
 
             #concatenation 
             if part2 and not done:
-                value = num1 + num2
-                nums.appendleft(value)
+                nums.appendleft(num1+num2)
                 processOne(result, nums)
                 nums.popleft()
 
