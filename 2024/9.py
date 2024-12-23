@@ -6,14 +6,11 @@ class Diskblock():
 
 class Solution():
     def __init__(self):
-        self.diskmap = []
-        self.filespaces = []
-        self.freespaces = []
+        self.diskmap, self.filespaces, self.freespaces = [], [], []
 
     def readInput(self, filename):
         self.__init__()
-        file_id = 0
-        free_id = 0
+        file_id, free_id = 0, 0
         with open(filename, 'r') as file:
             data = file.read()
             data = data.strip()
@@ -28,29 +25,22 @@ class Solution():
                     file_id += 1
                 else:
                     # free space indicator
-                    if int(c) == 0:
-                        continue
                     self.freespaces.append(Diskblock(free_id, len(self.diskmap), int(c)))
                     for k in range(int(c)):
                         self.diskmap.append(None)
                     free_id += 1
 
     def compactData(self):
-        i = 0
-        j = len(self.diskmap)-1
-        while i < j:
+        i, j = 0, len(self.diskmap)-1
+        while True:
             while self.diskmap[i] != None:
                 i += 1
-            if i > j:
-                break
             while self.diskmap[j] == None:
                 j -= 1
             if i > j:
                 break
             self.diskmap[i] = self.diskmap[j]
             self.diskmap[j] = None
-            i += 1
-            j -= 1
 
     def compactWithoutFragmentation(self):
         for j in range(len(self.filespaces)-1, -1, -1):
@@ -73,23 +63,17 @@ class Solution():
     def calculateChecksum(self):
         checksum = 0
         for i,val in enumerate(self.diskmap):
-            if val == None:
-                continue
-            checksum += (i * val)
+            if val != None:
+                checksum += (i * val)
         return checksum
 
-    def part1(self, filename):
+    def process(self, filename, part1):
         self.readInput(filename)
-        self.compactData()
-        return self.calculateChecksum()
-
-    def part2(self, filename):
-        self.readInput(filename)
-        self.compactWithoutFragmentation()
+        self.compactData() if part1 else self.compactWithoutFragmentation()
         return self.calculateChecksum()
 
 sol = Solution()
-print(f"part 1 example:\t\t{sol.part1('input/9/example.txt')}")
-print(f"part 1 solution:\t{sol.part1('input/9/input.txt')}")
-print(f"part 2 example:\t\t{sol.part2('input/9/example.txt')}")
-print(f"part 2 solution:\t{sol.part2('input/9/input.txt')}")
+print(f"part 1 example:\t\t{sol.process('input/9/example.txt', True)}")
+print(f"part 1 solution:\t{sol.process('input/9/input.txt', True)}")
+print(f"part 2 example:\t\t{sol.process('input/9/example.txt', False)}")
+print(f"part 2 solution:\t{sol.process('input/9/input.txt', False)}")
